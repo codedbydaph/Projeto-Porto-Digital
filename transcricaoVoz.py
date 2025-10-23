@@ -9,7 +9,7 @@ from urllib.parse import urlencode
 from datetime import datetime
 
 # --- Configurações ---
-YOUR_API_KEY = "***"  # Mudar para a sua chave do assembly
+YOUR_API_KEY = "81422daf5a8242e887b8eed313e1682d"  # Mudar para a sua chave do assembly
 
 CONNECTION_PARAMS = {
     "sample_rate": 16000,
@@ -96,15 +96,20 @@ def on_message(ws, message):
             max_len = term_width - len(prefix)  # espaço restante para o parcial
             
             if formatted:
-                # Limpa a linha do parcial anterior
-                sys.stdout.write("\r" + " " * (len(prefix) + last_partial_length) + "\r")
-                print(transcript)  # imprime o texto final em nova linha
+                term_width = get_term_width()
+                lines_to_clear = (last_partial_length // term_width) + 1
+
+                for _ in range(lines_to_clear):
+                    sys.stdout.write('\r' + ' ' * term_width + '\r')
+                sys.stdout.flush()
+
+                print(transcript)
                 final_text += transcript + " "
                 last_partial_length = 0
             else:
                 # Garante que o parcial não ultrapasse a largura do terminal
                 safe_transcript = truncate_to_width(transcript, max_len)
-                indice_safe = len(safe_transcript)-1
+                indice_safe = len(safe_transcript)
                 max_indice = indice_safe + max_len
                 # Limpa a linha do parcial anterior e imprime o novo
                 sys.stdout.write("\r" + " " * (len(prefix) + last_partial_length) + "\r")
@@ -112,11 +117,11 @@ def on_message(ws, message):
                 last_partial_length = len(safe_transcript)
 
                 # Verifica se tem mais transcrição além da linha para exibi-la corretamente
-                if transcript > safe_transcript:
+                if len(transcript) > len(safe_transcript):
                     rest_transcript = transcript[indice_safe:max_indice]
                     sys.stdout.write("\r" + " " * (len(prefix) + last_partial_length) + "\r")
                     sys.stdout.write(prefix + rest_transcript)
-                
+                    last_partial_length = len(rest_transcript)
                 sys.stdout.flush()
                 
         elif msg_type == "Termination":
