@@ -39,7 +39,7 @@ def on_open(ws):
     print("conexão com WebSocket aberta.")
     print(f"Conectado a: {API_ENDPOINT}")
 
-    # Começa a enviar o audio em um caminha diferente
+    # Começa a enviar o audio em um caminho diferente
     def stream_audio():
         global stream
         while not stop_event.is_set():
