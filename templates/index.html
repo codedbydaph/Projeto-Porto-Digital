@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>SQUAD 29 | Teleprompter Broadcast</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #prompter-container {
+            width: 85%;
+            margin: 0 auto;
+            padding-top: 45vh;
+            padding-bottom: 50vh;
+            font-size: 65px;
+            line-height: 1.5;
+            font-weight: bold;
+            text-align: left;
+            -webkit-font-smoothing: antialiased; 
+        }
+
+        .script-line {
+            padding: 15px 20px;
+            opacity: 0.35;
+            transition: opacity 0.5s ease, color 0.5s ease, transform 0.5s ease;
+            border-left: 8px solid transparent;
+        }
+
+        .active {
+            opacity: 1;
+            color: #ffff00;
+            border-left: 8px solid #ffff00;
+            transform: scale(1.02);
+            background: linear-gradient(90deg, rgba(255,255,0,0.1) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        #marker {
+            position: fixed;
+            top: 48%; left: 2%;
+            color: #ff0000; font-size: 60px;
+            z-index: 100;
+            text-shadow: 0 0 15px rgba(255,0,0,0.6);
+        }
+
+        #alert-box {
+            position: fixed;
+            top: 15%; left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 24px; font-weight: bold; text-transform: uppercase;
+            display: none; z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 2px solid rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+        }
+        .alert-jump { background-color: rgba(255, 215, 0, 0.9); color: #000; }
+        .alert-back { background-color: rgba(153, 0, 255, 0.9); color: #fff; }
+
+        #btn-mirror {
+            position: fixed;
+            top: 20px; right: 20px;
+            padding: 8px 15px;
+            background: rgba(50,50,50,0.5);
+            color: #aaa;
+            border: 1px solid #555;
+            cursor: pointer;
+            font-size: 12px; z-index: 1000; border-radius: 4px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        #btn-mirror:hover { background: #fff; color: #000; }
+        .mirror { transform: scaleX(-1); }
+    </style>
+</head>
+<body>
+
+    <div id="marker">➤</div>
+    <button id="btn-mirror" onclick="document.body.classList.toggle('mirror')">Inverter Tela</button>
+
+    <div id="alert-box"></div>
+
+    <div id="prompter-container">
+        {% for linha in script %}
+            <div class="script-line" id="line-{{ loop.index0 }}">{{ linha }}</div>
+        {% endfor %}
+        <div style="height: 60vh;"></div>
+    </div>
+
+    <script>
+        const socket = io();
+        
+        socket.on('connect', () => { 
+            console.log("Produção Conectada."); 
+        });
+
+        socket.on('cmd', (data) => {
+            if (data.type === 'sync') {
+                scrollToLine(data.index);
+                return;
+            }
+
+            scrollToLine(data.index);
+            
+            if (data.type === 'jump') showAlert("⚠️ SALTO", "jump");
+            if (data.type === 'back') showAlert("⏪ RETROCESSO", "back");
+        });
+
+        function scrollToLine(index) {
+            document.querySelectorAll('.script-line').forEach(el => el.classList.remove('active'));
+            const el = document.getElementById(`line-${index}`);
+            if (el) {
+                el.classList.add('active');
+                setTimeout(() => {
+                    el.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 50);
+            }
+        }
+
+        function showAlert(msg, type) {
+            const box = document.getElementById('alert-box');
+            box.innerText = msg;
+            box.className = type === 'jump' ? 'alert-jump' : 'alert-back';
+            box.style.display = 'block';
+            setTimeout(() => { box.style.display = 'none'; }, 2000);
+        }
+        
+        window.onload = () => scrollToLine(0);
+    </script>
+
+    <div style="
+        position: fixed;
+        bottom: 15px; right: 20px;
+        color: rgba(255,255,255,0.4);
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 11px; z-index: 99999;
+        pointer-events: none; user-select: none;
+        text-transform: uppercase; letter-spacing: 1.5px;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    ">
+        Interface: &bull; <strong>Diego Marcelo - SQUAD 29</strong>
+        
+    </div>
+
+</body>
+</html>
