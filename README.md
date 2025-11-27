@@ -83,9 +83,3 @@ Para garantir a autoria e controle de execução em ambientes compartilhados:
 
 1.  **Hash SHA-256:** A senha de produção não é armazenada em texto plano. O sistema compara o Hash da entrada, prevenindo engenharia reversa simples.
 2.  **Anti-Tamper:** Uma verificação de integridade checa. Se modificada, o sistema entra em modo de falha e encerra a execução.
-
----
-
-### Desenvolvimento
-
-Desenvolvido por **Diego Marcelo & Ana Luísa - SQUAD 29**.
