@@ -1,85 +1,166 @@
-# Jornada de Desenvolvimento: Teleprompter Broadcast Engine
+# Teleprompter por Reconhecimento de Voz — SQUAD 29
 
-Este documento detalha o processo de engenharia, os desafios técnicos enfrentados e as soluções arquiteturais implementadas durante o desenvolvimento do **Teleprompter SQUAD 29**.
+O Teleprompter por Reconhecimento de Voz é um MVP desenvolvido pela **Squad 29** com o objetivo de automatizar a rolagem do teleprompter, eliminando a necessidade de um operador dedicado durante transmissões e gravações.  
+A solução utiliza reconhecimento de voz em tempo real para ajustar a rolagem do texto conforme o ritmo do apresentador, proporcionando maior fluidez, naturalidade e precisão.
 
-O projeto evoluiu de um script de reconhecimento de voz simples para algo profissional e robusto, capaz de operar em ambiente de transmissão ao vivo.
-
----
-
-## 1. Arquitetura do Sistema
-
-O sistema opera em uma arquitetura híbrida **Python (Backend) + Web (Frontend)**, utilizando comunicação **Full-Duplex** via WebSockets para garantir latência zero.
-
-* **Core (Cérebro):** Python 3.13+ processando áudio bruto via `PyAudio`.
-* **AI (Reconhecimento):** Modelo `Vosk` (Offline/Edge Computing) para privacidade e velocidade.
-* **Comunicação:** `Flask-SocketIO` criando um túnel entre o servidor e o navegador.
-* **Interface:** HTML5/CSS3 e JavaScript com manipulação de DOM reativa.
+O sistema foi projetado para reduzir falhas humanas, melhorar a experiência do apresentador e otimizar o trabalho da equipe técnica. Toda a aplicação funciona localmente, utilizando o modelo offline **Vosk**, garantindo estabilidade e desempenho adequado para ambientes de estúdio.
 
 ---
 
-## 2. Desafios Técnicos e Soluções (Troubleshooting)
+# 1. Link dos Arquivos do MVP
 
-Durante o desenvolvimento, enfrentamos diversos obstáculos técnicos. Abaixo, detalho os principais erros e como foram corrigidos.
-
-### Fase 1: Captura de Áudio e Dependências
-* **O Problema:** A instalação da biblioteca `PyAudio` no Windows falhava consistentemente devido à falta de compiladores C++ (`Microsoft Visual C++ 14.0 is required`).
-* **A Solução:** Implementamos o uso do `pipwin`, um gerenciador de pacotes que baixa binários pré-compilados (wheels) específicos para Windows, contornando a necessidade de compilação local.
-
-### Fase 2: Conexão WebSocket (O "Erro de Thread")
-* **O Problema:** Ao integrar a interface Web, o servidor Flask travava ou não respondia quando o loop de reconhecimento de voz iniciava. O uso da biblioteca `eventlet` causava conflitos de soquete no Windows, gerando o erro `WebSocket is closed before the connection is established`.
-* **A Solução:**
-    1.  Migramos o modo assíncrono do SocketIO para `async_mode='threading'`.
-    2.  Implementamos o gerenciamento de threads via `socketio.start_background_task()`.
-    3.  Adicionamos pausas estratégicas (`time.sleep(0.001)`) dentro do loop infinito de áudio para evitar o congelamento da CPU (CPU Starvation) e permitir que o Flask processasse requisições HTTP.
-
-### Fase 3: Lógica de Rolagem (Falsos Positivos)
-* **O Problema:** O sistema detectava "pulos" incorretos. Frases curtas como "Bom dia" faziam o prompter pular para qualquer lugar do texto que contivesse essas palavras.
-* **A Solução: Lógica de Threshold Dinâmico.**
-    * Criamos regras distintas baseadas no tamanho da frase falada.
-    * **Frases Curtas (< 40 chars):** Exigem 95% de precisão (Rigor Máximo).
-    * **Frases Longas (> 40 chars):** Exigem 80% de precisão (Permite erros de dicção).
-    * **Trava de Segurança:** O sistema ignora tentativas de salto com menos de 20 caracteres.
-
-### Fase 4: O Bug da "Primeira Frase"
-* **O Problema:** O apresentador precisava ler a primeira frase duas vezes para o sistema "acordar".
-* **A Causa:** O código limpava o buffer de áudio (`recognizer.Reset()`) agressivamente logo após abrir o microfone, descartando os primeiros segundos de fala.
-* **A Solução:** Removemos a limpeza cíclica e implementamos uma limpeza única na inicialização da stream, garantindo que o sistema esteja ouvindo desde o milissegundo zero.
+## **1.1 — Código-fonte do Projeto**
+https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO  
+*(substitua pelo link real do repositório no GitHub)*
 
 ---
 
-## 3. Evolução do Algoritmo de Match
+## **1.2 — Versão Online ou Executável do MVP**
 
-A parte mais complexa do projeto foi desenvolver o algoritmo que decide **se o que foi dito corresponde ao roteiro**.
+O sistema roda localmente devido ao uso de áudio em tempo real.
 
-### Versão 1.0 (Básica)
-* Usava apenas `if palavra in frase`.
-* **Falha:** Se o apresentador dissesse "Hoje temos *muitas* notícias" e o roteiro fosse "Hoje temos notícias", o sistema falhava.
+Após a instalação (passos abaixo), execute:
 
-### Versão 2.0 (Fuzzy Logic)
-* Implementamos `SequenceMatcher` da biblioteca `difflib`.
-* Passamos a calcular uma porcentagem de similaridade (0.0 a 1.0).
-* **Falha:** Não lidava bem com improvisos longos antes da frase chave.
+```bash
+python app.py
+``` 
 
-### Versão 3.0 (Broadcast Standard - Atual)
-* **Janelas de Busca (Sliding Window):** O sistema analisa a linha atual, 25 linhas à frente (Lookahead) e 20 linhas para trás (Lookbehind).
-* **Recuperação de Sufixo:** Se o apresentador improvisar um parágrafo inteiro, o algoritmo ignora o início da fala e analisa apenas os últimos segundos para tentar "pescar" a frase de retomada do roteiro.
-* **Busca Global:** Se uma frase muito longa e única é dita, o sistema quebra a janela e varre o roteiro inteiro para realizar saltos longos (ex: do início para o fim do jornal).
+A interface estará disponível em:  
+**http://127.0.0.1:5500**
 
 ---
 
-## 4. UX/UI: Aspecto de Televisão
+# 1.3 — Passo a Passo de Instalação e Execução
 
-A interface foi projetada para simular equipamentos profissionais de estúdio ($5.000+).
-
-* **Smooth Scrolling:** Substituímos a rolagem padrão por transições CSS de `0.6s` e lógica JavaScript com delay calculado. Isso cria o efeito "manteiga" (suave), evitando que o texto pule bruscamente e confunda o leitor.
-* **Pacing Artificial:** Implementamos um atraso proposital de 1.2s para frases curtas no Backend. Isso dá tempo para o apresentador respirar e finalizar a entonação antes da próxima linha subir.
-* **Feedback Visual:** Alertas coloridos (Amarelo para Saltos, Roxo para Retrocessos) informam a equipe técnica sobre o comportamento do piloto automático.
+A seguir está o guia completo para rodar o MVP do zero em um computador **Windows**, mesmo sem conhecimento técnico prévio.
 
 ---
 
-## 5. Segurança e Integridade
+## 1. Pré-requisitos
 
-Para garantir a autoria e controle de execução em ambientes compartilhados:
+### ✔ Python 3.10 ou superior  
+Baixe em: https://www.python.org/downloads  
 
-1.  **Hash SHA-256:** A senha de produção não é armazenada em texto plano. O sistema compara o Hash da entrada, prevenindo engenharia reversa simples.
-2.  **Anti-Tamper:** Uma verificação de integridade checa. Se modificada, o sistema entra em modo de falha e encerra a execução.
+⚠ Durante a instalação, marque a opção:  
+**Add Python to PATH**
+
+---
+
+### ✔ Git  
+Baixe em: https://git-scm.com/downloads  
+
+Siga o instalador clicando em **Next** até finalizar.
+
+---
+
+## 2. Baixando o Projeto
+
+1. Crie uma pasta no seu computador.  
+2. Clique com o botão direito dentro da pasta → **Open Git Bash here**.  
+3. Execute o comando:
+
+```bash
+git clone https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git
+```
+
+Acesse o diretório do projeto:
+
+cd NOME-DO-REPOSITORIO
+
+## 3. Baixando o Modelo de Voz (Obrigatório)
+
+O modelo de reconhecimento de voz não é armazenado no GitHub e precisa ser baixado manualmente.
+
+1. Acesse: https://alphacephei.com/vosk/models  
+2. Procure por **Portuguese**  
+3. Baixe o modelo: **vosk-model-small-pt-0.3**  
+4. Extraia o arquivo `.zip`  
+5. Renomeie a pasta extraída para:
+
+
+6. Mova essa pasta `model` para dentro da pasta do projeto, ao lado do arquivo `app.py`.
+
+A estrutura final deve ficar parecida com isto:
+
+/NOME-DO-REPOSITORIO
+├── app.py # Arquivo principal da aplicação
+├── model/ # Modelo Vosk (reconhecimento de voz)
+│ └── ...
+├── static/ # Arquivos estáticos (CSS, JS, imagens)
+│ ├── css/
+│ ├── js/
+│ └── img/
+├── templates/ # Arquivos HTML
+│ └── index.html
+└── README.md # Documentação do projeto
+
+## 4. Instalando as Dependências
+
+Com o terminal aberto dentro da pasta do projeto:
+
+### Criar ambiente virtual
+
+```bash
+python -m venv venv
+```
+
+### Ativar o ambiente virtual (Windows)
+
+```bash
+.\venv\Scripts\activate
+```
+
+Se der certo, o terminal passará a mostrar algo como:
+```bash
+(venv) C:\caminho\para\seu\projeto>
+```
+
+
+### Instalar PyAudio corretamente (Windows)
+
+```bash
+pip install pipwin
+pipwin install pyaudio
+```
+
+### Instalar as demais bibliotecas
+```bash
+pip install flask flask-socketio eventlet vosk
+``` 
+
+## 5. Rodando o Teleprompter
+
+Com o ambiente virtual ainda ativado, execute:
+
+```bash
+python app.py
+```
+
+O sistema solicitará uma senha. Use:
+```nginx
+dmsousa1
+```
+
+Se tudo estiver correto, o terminal exibirá algo como:
+```nginx
+Servidor Rodando: http://127.0.0.1:5500
+```
+
+## 6. Usando o Teleprompter
+
+Abra seu navegador (Chrome, Edge, etc.).
+
+Acesse o endereço: http://127.0.0.1:5500
+
+Insira ou cole o roteiro desejado na interface.
+
+Observe o terminal: quando aparecer a mensagem:
+
+--- NO AR: Monitorando X linhas ---
+
+Significa que o microfone está ativo.
+
+A partir daí, você pode começar a ler o texto em voz alta.  
+**O teleprompter fará a rolagem automaticamente conforme a sua fala.**
+
+
