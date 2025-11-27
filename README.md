@@ -5,7 +5,7 @@ A solução utiliza reconhecimento de voz em tempo real para ajustar a rolagem d
 
 O sistema foi projetado para reduzir falhas humanas, melhorar a experiência do apresentador e otimizar o trabalho da equipe técnica. Toda a aplicação funciona localmente, utilizando o modelo offline **Vosk**, garantindo estabilidade e desempenho adequado para ambientes de estúdio.
 
---
+---
 
 # 1. Link dos Arquivos do MVP
 
