@@ -5,7 +5,7 @@ A solução utiliza reconhecimento de voz em tempo real para ajustar a rolagem d
 
 O sistema foi projetado para reduzir falhas humanas, melhorar a experiência do apresentador e otimizar o trabalho da equipe técnica. Toda a aplicação funciona localmente, utilizando o modelo offline **Vosk**, garantindo estabilidade e desempenho adequado para ambientes de estúdio.
 
----
+
 
 # 1. Link dos Arquivos do MVP
 
@@ -13,7 +13,6 @@ O sistema foi projetado para reduzir falhas humanas, melhorar a experiência do 
 https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO  
 *(substitua pelo link real do repositório no GitHub)*
 
----
 
 ## **1.2 — Versão Online ou Executável do MVP**
 
@@ -34,7 +33,6 @@ A interface estará disponível em:
 
 A seguir está o guia completo para rodar o MVP do zero em um computador **Windows**, mesmo sem conhecimento técnico prévio.
 
----
 
 ## 1. Pré-requisitos
 
