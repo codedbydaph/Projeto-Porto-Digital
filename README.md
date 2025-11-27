@@ -38,7 +38,7 @@ A seguir está o guia completo para rodar o MVP do zero em um computador **Windo
 
 ## 1. Pré-requisitos
 
-### ✔ Python 3.10 ou superior  
+### Python 3.10 ou superior  
 Baixe em: https://www.python.org/downloads  
 
 ⚠ Durante a instalação, marque a opção:  
@@ -81,7 +81,7 @@ O modelo de reconhecimento de voz não é armazenado no GitHub e precisa ser bai
 6. Mova essa pasta `model` para dentro da pasta do projeto, ao lado do arquivo `app.py`.
 
 A estrutura final deve ficar parecida com isto:
-
+```bash
 /NOME-DO-REPOSITORIO
 ├── app.py # Arquivo principal da aplicação
 ├── model/ # Modelo Vosk (reconhecimento de voz)
@@ -93,7 +93,7 @@ A estrutura final deve ficar parecida com isto:
 ├── templates/ # Arquivos HTML
 │ └── index.html
 └── README.md # Documentação do projeto
-
+```
 ## 4. Instalando as Dependências
 
 Com o terminal aberto dentro da pasta do projeto:
