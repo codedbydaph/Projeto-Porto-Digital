@@ -1,4 +1,4 @@
-# 📺 Teleprompter por Reconhecimento de Voz — Squad 29
+# 📺 Squad 29: Teleprompter por Reconhecimento de Voz
 
 O **Teleprompter por Reconhecimento de Voz** é um MVP desenvolvido pela **Squad 29** para automatizar a rolagem do teleprompter durante transmissões e gravações.  
 A aplicação usa **reconhecimento de voz em tempo real** para acompanhar o ritmo de leitura do apresentador e avançar o texto automaticamente, reduzindo a necessidade de um operador dedicado.
