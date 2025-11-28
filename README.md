@@ -6,7 +6,6 @@ A aplicação usa **reconhecimento de voz em tempo real** para acompanhar o ritm
 O sistema foi pensado para:
 - 🤖 Reduzir falhas humanas  
 - 🗣️ Dar mais fluidez e naturalidade à apresentação  
-- 🎛️ Melhorar o trabalho da equipe técnica  
 - 🔒 Funcionar **100% localmente**, usando o modelo offline **Vosk**
 
 ---
@@ -55,8 +54,6 @@ Projeto-Porto-Digital/
 │   └── index.html
 └── README.md
 </pre>
-
----
 
 # 📘 Passo a Passo para Execução do MVP
 
