@@ -28,6 +28,33 @@ O sistema foi pensado para:
 🔗 **GitHub:**  
 https://github.com/codedbydaph/Projeto-Porto-Digital.git
 
+---
+
+## 🖼️ Interface do Teleprompter  
+
+<p align="center">
+  <img src="./static/img/interface.png" width="600" alt="Interface do Teleprompter">
+</p>
+
+---
+
+## 📁 Estrutura Final do Projeto
+
+A estrutura deve ficar assim:
+
+<pre>
+Projeto-Porto-Digital/
+├── app.py
+├── model/
+│   └── (arquivos do modelo vosk)
+├── static/
+│   ├── css/
+│   ├── js/
+│   └── img/
+├── templates/
+│   └── index.html
+└── README.md
+</pre>
 
 ---
 
@@ -59,48 +86,7 @@ cd Projeto-Porto-Digital
 
 ---
 
-## 🗣️ 3. Baixar o Modelo de Voz (Vosk)
-
-O modelo não está no repositório e deve ser baixado separadamente.
-
-1. Acesse: https://alphacephei.com/vosk/models  
-2. Baixe: **vosk-model-small-pt-0.3**  
-3. Extraia o `.zip`  
-4. Renomeie a pasta extraída para:
-
-```
-model
-```
-
-5. Mova essa pasta para dentro do diretório do projeto:
-
-```
-Projeto-Porto-Digital/model/
-```
-
----
-
-## 📁 Estrutura Final do Projeto
-
-A estrutura deve ficar assim:
-
-<pre>
-Projeto-Porto-Digital/
-├── app.py
-├── model/
-│   └── (arquivos do modelo vosk)
-├── static/
-│   ├── css/
-│   ├── js/
-│   └── img/
-├── templates/
-│   └── index.html
-└── README.md
-</pre>
-
----
-
-## ⚙️ 4. Criar Ambiente Virtual
+## ⚙️ 3. Criar Ambiente Virtual
 
 Dentro da pasta do projeto:
 
@@ -111,12 +97,12 @@ python -m venv venv
 Ativar ambiente virtual (Windows):
 
 ```bash
-.env\Scriptsctivate
+.\venv\Scripts\activate
 ```
 
 ---
 
-## 📚 5. Instalar Dependências
+## 📚 4. Instalar Dependências
 
 ### ✔ Instalando PyAudio corretamente (Windows)
 
@@ -133,7 +119,7 @@ pip install flask flask-socketio eventlet vosk
 
 ---
 
-## ▶️ 6. Executar o Teleprompter
+## ▶️ 5. Executar o Teleprompter
 
 Com o ambiente virtual ativado, execute:
 
@@ -155,7 +141,7 @@ http://127.0.0.1:5500
 
 ---
 
-## 🎬 7. Como Usar
+## 🎬 6. Como Usar
 
 1. Abra o navegador  
 2. Acesse o endereço acima  
@@ -174,6 +160,11 @@ Significa que o microfone está ativo 🎙️
 ---
 
 ## 🧩 Arquitetura do Sistema  
+
+<p align="center">
+  <img src="./static/img/fluxo.png" width="650" alt="Fluxo do Sistema">
+</p>
+
 Fluxo simplificado:
 
 1. 🎙️ Captura de áudio pelo microfone  
@@ -183,7 +174,7 @@ Fluxo simplificado:
 
 ---
 
-## 🛠️ 8. Possíveis Melhorias Futuras
+## 🛠️ 7. Possíveis Melhorias Futuras
 
 - Captura de áudio via navegador  
 - Deploy remoto para uso multiusuário  

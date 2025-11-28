@@ -1,0 +1,83 @@
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #prompter-container {
+            width: 85%;
+            margin: 0 auto;
+            padding-top: 45vh;
+            padding-bottom: 50vh;
+            font-size: 65px;
+            line-height: 1.5;
+            font-weight: bold;
+            text-align: left;
+            -webkit-font-smoothing: antialiased; 
+        }
+
+        .script-line {
+            padding: 15px 20px;
+            opacity: 0.35;
+            transition: opacity 0.5s ease, color 0.5s ease, transform 0.5s ease;
+            border-left: 8px solid transparent;
+        }
+
+        .active {
+            opacity: 1;
+            color: #ffff00;
+            border-left: 8px solid #ffff00;
+            transform: scale(1.02);
+            background: linear-gradient(90deg, rgba(255,255,0,0.1) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        #marker {
+            position: fixed;
+            top: 48%; left: 2%;
+            color: #ff0000; font-size: 60px;
+            z-index: 100;
+            text-shadow: 0 0 15px rgba(255,0,0,0.6);
+        }
+
+        #alert-box {
+            position: fixed;
+            top: 15%; left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 24px; font-weight: bold; text-transform: uppercase;
+            display: none; z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 2px solid rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+        }
+        .alert-jump { background-color: rgba(255, 215, 0, 0.9); color: #000; }
+        .alert-back { background-color: rgba(153, 0, 255, 0.9); color: #fff; }
+
+        #btn-mirror {
+            position: fixed;
+            top: 20px; right: 20px;
+            padding: 8px 15px;
+            background: rgba(50,50,50,0.5);
+            color: #aaa;
+            border: 1px solid #555;
+            cursor: pointer;
+            font-size: 12px; z-index: 1000; border-radius: 4px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        #btn-mirror:hover { background: #fff; color: #000; }
+        .mirror { transform: scaleX(-1); }
+
+        .divzada{
+            position: fixed;
+            bottom: 15px; right: 20px;
+            color: rgba(255,255,255,0.4);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 11px; z-index: 99999;
+            pointer-events: none; user-select: none;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
