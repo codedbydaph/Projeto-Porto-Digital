@@ -12,13 +12,13 @@ O sistema foi pensado para:
 
 ## 🚀 Tecnologias Utilizadas
 
-- 🐍 **Python 3.10+**
-- 🌐 **Flask** — Servidor web  
-- 🔌 **Flask‑SocketIO** — Comunicação em tempo real  
-- ⚡ **Eventlet** — Suporte para WebSockets  
-- 🎤 **Vosk** — Reconhecimento de voz offline  
-- 🎧 **PyAudio** — Captura de áudio  
-- 🎨 **HTML + CSS + JavaScript** — Interface
+- **Python 3.10+**
+- **Flask** — Servidor web  
+- **Flask‑SocketIO** — Comunicação em tempo real  
+- **Eventlet** — Suporte para WebSockets  
+- **Vosk** — Reconhecimento de voz offline  
+- **PyAudio** — Captura de áudio  
+- **HTML + CSS + JavaScript** — Interface
 
 ---
 
