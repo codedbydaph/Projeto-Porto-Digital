@@ -29,15 +29,6 @@ https://github.com/codedbydaph/Projeto-Porto-Digital.git
 
 ---
 
-## 🖼️ Interface do Teleprompter  
-*(Adicione o arquivo interface.png em static/img/ para aparecer no README)*
-
-<p align="center">
-  <img src="static/img/interface.png" width="600" alt="Interface do Teleprompter">
-</p>
-
----
-
 # 📘 Passo a Passo para Execução do MVP
 
 A seguir está o passo a passo completo para **recriar, instalar e executar** o MVP em qualquer computador Windows partindo de um ambiente totalmente limpo.
