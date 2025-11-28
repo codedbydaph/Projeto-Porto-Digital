@@ -27,6 +27,14 @@ O sistema foi pensado para:
 🔗 **GitHub:**  
 https://github.com/codedbydaph/Projeto-Porto-Digital.git
 
+---
+
+## 🖼️ Interface do Teleprompter  
+*(Adicione o arquivo interface.png em static/img/ para aparecer no README)*
+
+<p align="center">
+  <img src="static/img/interface.png" width="600" alt="Interface do Teleprompter">
+</p>
 
 ---
 
