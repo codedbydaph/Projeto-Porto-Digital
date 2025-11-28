@@ -31,7 +31,7 @@ https://github.com/codedbydaph/Projeto-Porto-Digital.git
 
 ---
 
-# 1.3 — 📘 Passo a Passo para Execução do MVP
+# 📘 Passo a Passo para Execução do MVP
 
 A seguir está o passo a passo completo para **recriar, instalar e executar** o MVP em qualquer computador Windows partindo de um ambiente totalmente limpo.
 
