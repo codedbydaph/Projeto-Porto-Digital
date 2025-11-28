@@ -174,12 +174,6 @@ Significa que o microfone está ativo 🎙️
 ---
 
 ## 🧩 Arquitetura do Sistema  
-*(Adicione o arquivo arquitetura.png em static/img/ para aparecer)*
-
-<p align="center">
-  <img src="static/img/arquitetura.png" width="650" alt="Fluxo do Sistema">
-</p>
-
 Fluxo simplificado:
 
 1. 🎙️ Captura de áudio pelo microfone  
