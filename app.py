@@ -42,7 +42,7 @@ def check_security():
     print(f"{Colors.CYAN}  Devs: {__AUTHOR__} {Colors.RESET}")
     print("="*60 + "\n")
     
-    HASH_CORRETO = "e00f431df8983277f69ba15687f74d40bf1231aec47ed13394085aa1f3d85340"
+    HASH_CORRETO = "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"
 
     tentativas = 3
     while tentativas > 0:
