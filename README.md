@@ -127,7 +127,7 @@ python app.py
 O sistema solicitará a senha:
 
 ```
-dmsousa1
+123456
 ```
 
 Se tudo estiver correto, o servidor ficará disponível em:
